@@ -1,14 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index.html</title>
-</head>
-<body>
-<h1><U>manish saini</U></h1>
-{% for name in names %}
-<h1>{{name}}</h1>
-{% endfor %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}About | Weather App{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6 text-center text-indigo-600">About This Project</h1>
+
+<div class="text-gray-800 dark:text-gray-100 leading-relaxed space-y-4 text-center">
+  <p>
+    🌦️ The Weather App is a Flask-powered web application designed to fetch and display real-time weather
+    information using the OpenWeatherMap API.
+  </p>
+  <p>
+    💡 Built with HTML, Tailwind CSS, Flask, and Jinja templates. It includes:
+    <ul class="list-disc list-inside text-left max-w-2xl mx-auto mt-2">
+      <li>Live city weather search</li>
+      <li>Secure registration and login with session support</li>
+      <li>Dark/light mode toggle</li>
+      <li>Animated UI and responsive design</li>
+    </ul>
+  </p>
+
+  <p class="mt-6 text-lg font-semibold text-pink-600">Contributors:</p>
+  <ul class="list-none text-center font-medium">
+    {% for name in names %}
+      <li>{{ name | title }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}
