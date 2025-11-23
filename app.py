@@ -56,6 +56,7 @@ def signup():
 
         hashed_password = generate_password_hash(password)
 
+        # add your own root,password,host,port and database naame for sql connectivity
         try:
             conn = sql.connect(user='root', password='manish0832', host='localhost', port=3306, database='dsml8am')
             cur = conn.cursor()
@@ -103,9 +104,9 @@ def logout():
 # 📘 About Page
 @app.route("/index")
 def index():
-    names = ['manish', 'sunil']
+    names = ['manish']
     return render_template("index.html", names=names)
 
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+if __name__ == "__main__":
+    app.run()
