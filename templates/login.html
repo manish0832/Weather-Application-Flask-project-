@@ -1,46 +1,65 @@
 {% extends "base.html" %}
-{% block title %}Login | Weather App{% endblock %}
+{% block title %}Login | ClimateOS{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-4 text-center text-pink-600">Login to Your Account</h1>
+<section class="grid min-h-[78vh] gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+  <div class="glass-strong flex flex-col justify-between rounded-[2rem] p-8 md:p-10 fade-up">
+    <div>
+      <div class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] status-pill">
+        <span class="h-2 w-2 rounded-full bg-cyan-300"></span>
+        Returning member access
+      </div>
+      <h1 class="mt-6 max-w-xl text-4xl font-extrabold tracking-tight md:text-5xl">Log back into your weather workspace.</h1>
+      <p class="mt-4 max-w-lg text-base leading-7 md:text-lg" style="color: var(--muted);">
+        Review live conditions, jump back into saved city searches, and keep an eye on upcoming weather shifts from one premium dashboard.
+      </p>
+    </div>
 
-<form method="post" action="/login" class="space-y-4">
-  {% if message %}
-    <div class="text-red-500 text-sm">{{ message }}</div>
-  {% endif %}
-
-  <!-- Username -->
-  <div>
-    <label for="username" class="block text-sm font-semibold mb-1">Username</label>
-    <input type="text" name="username" id="username" required placeholder="Enter your username"
-      class="input-field w-full border border-gray-300 rounded px-3 py-2 text-gray-800" />
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <div class="metric-card rounded-3xl p-4">
+        <p class="text-xs uppercase tracking-[0.22em]" style="color: var(--muted);">Access</p>
+        <p class="mt-2 text-xl font-bold">Secure</p>
+      </div>
+      <div class="metric-card rounded-3xl p-4">
+        <p class="text-xs uppercase tracking-[0.22em]" style="color: var(--muted);">Forecast</p>
+        <p class="mt-2 text-xl font-bold">5 days</p>
+      </div>
+      <div class="metric-card rounded-3xl p-4">
+        <p class="text-xs uppercase tracking-[0.22em]" style="color: var(--muted);">Mode</p>
+        <p class="mt-2 text-xl font-bold">Adaptive UI</p>
+      </div>
+    </div>
   </div>
 
-  <!-- Password -->
-  <div>
-    <label for="password" class="block text-sm font-semibold mb-1">Password</label>
-    <input type="password" name="password" id="password" required placeholder="Enter your password"
-      class="input-field w-full border border-gray-300 rounded px-3 py-2 text-gray-800" />
-  </div>
+  <div class="glass rounded-[2rem] p-8 md:p-10 fade-up-delay">
+    <p class="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200/80">Sign in</p>
+    <h2 class="mt-3 text-3xl font-extrabold">Welcome back</h2>
+    <p class="mt-2 text-sm leading-6" style="color: var(--muted);">Use your account to open the full ClimateOS dashboard.</p>
 
-  <!-- Remember + Forgot -->
-  <div class="flex justify-between items-center text-sm">
-    <label class="flex items-center">
-      <input type="checkbox" class="mr-2"> Remember me
-    </label>
-    <a href="#" class="text-blue-500 hover:underline">Forgot password?</a>
-  </div>
+    {% if message %}
+      <div class="mt-5 rounded-2xl border border-rose-300/20 bg-rose-500/10 px-4 py-3 text-sm font-semibold text-rose-200">
+        {{ message }}
+      </div>
+    {% endif %}
 
-  <!-- Submit -->
-  <div>
-    <button type="submit" class="w-full bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600 font-bold">
-      Login
-    </button>
-  </div>
-</form>
+    <form method="post" action="{{ url_for('login') }}" class="mt-8 space-y-5">
+      <div>
+        <label for="username" class="mb-2 block text-sm font-semibold" style="color: var(--muted);">Username</label>
+        <input type="text" name="username" id="username" required placeholder="Enter your username" class="form-input" />
+      </div>
 
-<!-- Link to register -->
-<p class="text-sm text-center mt-4">
-  Don’t have an account? <a href="/" class="text-blue-500 hover:underline">Register</a>
-</p>
+      <div>
+        <label for="password" class="mb-2 block text-sm font-semibold" style="color: var(--muted);">Password</label>
+        <input type="password" name="password" id="password" required placeholder="Enter your password" class="form-input" />
+      </div>
+
+      <button type="submit" class="primary-btn w-full rounded-2xl px-6 py-4">Login to Dashboard</button>
+    </form>
+
+    <p class="mt-6 text-sm" style="color: var(--muted);">
+      Need an account?
+      <a href="{{ url_for('signup') }}" class="font-bold text-cyan-200 hover:text-white">Create one here</a>
+    </p>
+  </div>
+</section>
 {% endblock %}

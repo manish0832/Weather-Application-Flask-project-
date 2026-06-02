@@ -1,70 +1,270 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}Weather App{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ClimateOS{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          boxShadow: {
+            glow: "0 0 0 1px rgba(255,255,255,0.08), 0 24px 80px rgba(15, 23, 42, 0.45)"
+          },
+          fontFamily: {
+            sans: ["Manrope", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
   <style>
-    html[data-theme='dark'] {
-      --bg-color: rgba(30, 41, 59, 0.8);
-      --text-color: #f8fafc;
-      --card-color: #334155;
-      --input-bg: #475569;
+    :root {
+      --bg: #06131f;
+      --bg-soft: rgba(8, 20, 34, 0.75);
+      --card: rgba(11, 28, 46, 0.82);
+      --card-strong: rgba(17, 37, 59, 0.95);
+      --text: #ecf7ff;
+      --muted: #96a9bd;
+      --line: rgba(148, 163, 184, 0.18);
+      --accent: #62e8c6;
+      --accent-2: #73a9ff;
+      --danger: #ff8e8e;
+      --sun: #ffd166;
     }
+
     html[data-theme='light'] {
-      --bg-color: rgba(255, 255, 255, 0.8);
-      --text-color: #1e293b;
-      --card-color: #ffffff;
-      --input-bg: #f1f5f9;
+      --bg: #eef5ff;
+      --bg-soft: rgba(255, 255, 255, 0.72);
+      --card: rgba(255, 255, 255, 0.86);
+      --card-strong: rgba(255, 255, 255, 0.95);
+      --text: #0f172a;
+      --muted: #475569;
+      --line: rgba(15, 23, 42, 0.08);
+      --accent: #0f9f8c;
+      --accent-2: #2563eb;
+      --danger: #dc2626;
+      --sun: #ca8a04;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Roboto', sans-serif;
-      color: var(--text-color);
-      transition: background-color 0.3s, color 0.3s;
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(115, 169, 255, 0.22), transparent 34%),
+        radial-gradient(circle at top right, rgba(98, 232, 198, 0.14), transparent 28%),
+        linear-gradient(135deg, #04111d 0%, #09243a 48%, #0a1726 100%);
+      background-attachment: fixed;
+      transition: background 0.3s ease, color 0.3s ease;
     }
-    .active {
-      text-decoration: underline;
-      font-weight: bold;
+
+    html[data-theme='light'] body {
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(15, 159, 140, 0.12), transparent 25%),
+        linear-gradient(180deg, #f8fbff 0%, #edf4ff 52%, #f3f8ff 100%);
+    }
+
+    .glass {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 18px 60px rgba(2, 8, 23, 0.18);
+    }
+
+    .glass-strong {
+      background: var(--card);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 18px 60px rgba(2, 8, 23, 0.25);
+    }
+
+    .soft-border {
+      border: 1px solid var(--line);
+    }
+
+    .metric-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+    }
+
+    html[data-theme='light'] .metric-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.5));
+    }
+
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+
+    .fade-up {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .fade-up-delay {
+      animation: fadeUp 0.9s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav-link {
+      color: var(--muted);
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    html[data-theme='light'] .nav-link:hover,
+    html[data-theme='light'] .nav-link.active {
+      background: rgba(15, 23, 42, 0.06);
+    }
+
+    .form-input {
+      width: 100%;
+      border-radius: 1rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 0.95rem 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    .form-input:focus {
+      border-color: rgba(115, 169, 255, 0.55);
+      box-shadow: 0 0 0 4px rgba(115, 169, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    html[data-theme='light'] .form-input {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #04111d;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 45px rgba(37, 99, 235, 0.25);
+      opacity: 0.96;
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .status-pill {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
     }
   </style>
 </head>
-<body class="min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb');">
+<body>
+  <div class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 hero-grid opacity-50"></div>
 
-  <div class="bg-black/40 backdrop-blur-sm min-h-screen px-4 py-2 relative">
-    <!-- 🌙 Theme Toggle -->
-    <button onclick="toggleTheme()" class="absolute top-4 right-4 bg-white/20 text-white p-2 rounded-full hover:bg-white/30 transition-all z-50" title="Toggle Theme">
-      <i id="theme-icon" class="fas fa-moon"></i>
-    </button>
+    <header class="sticky top-0 z-40 px-4 pt-4">
+      <div class="glass mx-auto flex max-w-7xl items-center justify-between rounded-[1.75rem] px-4 py-3 md:px-6">
+        <a href="{{ url_for('home') if session.get('user') else url_for('signup') }}" class="flex items-center gap-3">
+          <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300 to-blue-500 text-slate-950 shadow-glow">
+            <i class="fa-solid fa-cloud-sun-rain text-lg"></i>
+          </div>
+          <div>
+            <p class="text-sm font-semibold tracking-[0.22em] text-cyan-200/80">CLIMATEOS</p>
+            <p class="text-xs" style="color: var(--muted);">Weather intelligence for everyday decisions</p>
+          </div>
+        </a>
 
-    <!-- 🔗 Navbar -->
-    <nav class="flex justify-center gap-6 text-white text-lg py-4">
-      <a href="/" class="{% if request.path == '/' %}active{% endif %}">Register</a>
-      <a href="/login" class="{% if request.path == '/login' %}active{% endif %}">Login</a>
-      <a href="/home" class="{% if request.path == '/home' %}active{% endif %}">Home</a>
-      <a href="/index" class="{% if request.path == '/index' %}active{% endif %}">About</a>
-      {% if session.get('user') %}
-      <a href="/logout" class="text-red-300 hover:underline">Logout</a>
-      {% endif %}
-    </nav>
+        <nav class="hidden items-center gap-2 md:flex">
+          <a href="{{ url_for('signup') }}" class="nav-link rounded-full px-4 py-2 text-sm font-semibold {% if request.path == '/' %}active{% endif %}">Register</a>
+          <a href="{{ url_for('login') }}" class="nav-link rounded-full px-4 py-2 text-sm font-semibold {% if request.path == '/login' %}active{% endif %}">Login</a>
+          <a href="{{ url_for('home') }}" class="nav-link rounded-full px-4 py-2 text-sm font-semibold {% if request.path == '/home' %}active{% endif %}">Dashboard</a>
+          <a href="{{ url_for('index') }}" class="nav-link rounded-full px-4 py-2 text-sm font-semibold {% if request.path == '/index' %}active{% endif %}">Product</a>
+        </nav>
 
-    <!-- 🔳 Main content -->
-    <main class="max-w-4xl mx-auto bg-white/80 dark:bg-gray-800 rounded-xl p-6 shadow-lg mt-6">
+        <div class="flex items-center gap-3">
+          {% if session.get('user') %}
+            <div class="hidden rounded-full px-4 py-2 text-sm md:block status-pill">
+              Signed in as <span class="font-bold">{{ session.get('user') }}</span>
+            </div>
+          {% endif %}
+          <button onclick="toggleTheme()" class="secondary-btn rounded-full p-3" title="Toggle theme">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
+          {% if session.get('user') %}
+            <a href="{{ url_for('logout') }}" class="rounded-full bg-rose-500/12 px-4 py-2 text-sm font-semibold text-rose-200 ring-1 ring-rose-300/15 transition hover:bg-rose-500/18">Logout</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    <main class="relative z-10 mx-auto max-w-7xl px-4 pb-12 pt-6 md:px-6">
       {% block content %}{% endblock %}
     </main>
   </div>
 
-  <!-- Script -->
   <script>
+    const savedTheme = localStorage.getItem("climateos-theme");
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+
+    function syncThemeIcon() {
+      const isDark = document.documentElement.getAttribute("data-theme") !== "light";
+      const icon = document.getElementById("theme-icon");
+      if (!icon) return;
+      icon.className = isDark ? "fa-solid fa-moon" : "fa-solid fa-sun";
+    }
+
     function toggleTheme() {
       const root = document.documentElement;
-      const icon = document.getElementById("theme-icon");
-      const isDark = root.getAttribute("data-theme") === "dark";
-      root.setAttribute("data-theme", isDark ? "light" : "dark");
-      icon.classList.toggle("fa-moon", !isDark);
-      icon.classList.toggle("fa-sun", isDark);
+      const nextTheme = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      root.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("climateos-theme", nextTheme);
+      syncThemeIcon();
     }
+
+    syncThemeIcon();
   </script>
 </body>
 </html>

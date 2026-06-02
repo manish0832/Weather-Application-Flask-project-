@@ -1,29 +1,56 @@
 {% extends "base.html" %}
-{% block title %}About | Weather App{% endblock %}
+{% block title %}Product | ClimateOS{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-6 text-center text-indigo-600">About This Project</h1>
+<section class="space-y-6">
+  <div class="glass-strong rounded-[2rem] p-8 md:p-10 fade-up">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] status-pill">
+        <span class="h-2 w-2 rounded-full bg-cyan-300"></span>
+        Product overview
+      </div>
+      <h1 class="mt-6 text-4xl font-extrabold tracking-tight md:text-6xl">ClimateOS turns a basic weather app into a polished micro-SaaS experience.</h1>
+      <p class="mt-5 max-w-2xl text-base leading-7 md:text-lg" style="color: var(--muted);">
+        The app now focuses on clarity, speed, and premium presentation: weather search, operational highlights, a forecast view, and a stronger dashboard narrative across the product.
+      </p>
+    </div>
+  </div>
 
-<div class="text-gray-800 dark:text-gray-100 leading-relaxed space-y-4 text-center">
-  <p>
-    🌦️ The Weather App is a Flask-powered web application designed to fetch and display real-time weather
-    information using the OpenWeatherMap API.
-  </p>
-  <p>
-    💡 Built with HTML, Tailwind CSS, Flask, and Jinja templates. It includes:
-    <ul class="list-disc list-inside text-left max-w-2xl mx-auto mt-2">
-      <li>Live city weather search</li>
-      <li>Secure registration and login with session support</li>
-      <li>Dark/light mode toggle</li>
-      <li>Animated UI and responsive design</li>
-    </ul>
-  </p>
+  <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="glass rounded-[2rem] p-6 md:p-8 fade-up-delay">
+      <p class="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200/80">Included upgrades</p>
+      <div class="mt-5 grid gap-4">
+        {% for feature in features %}
+          <div class="metric-card rounded-3xl p-5">
+            <div class="flex items-start gap-3">
+              <div class="mt-1 flex h-8 w-8 items-center justify-center rounded-2xl bg-cyan-300/10 text-cyan-200">
+                <i class="fa-solid fa-check"></i>
+              </div>
+              <p class="font-semibold leading-7">{{ feature }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 
-  <p class="mt-6 text-lg font-semibold text-pink-600">Contributors:</p>
-  <ul class="list-none text-center font-medium">
-    {% for name in names %}
-      <li>{{ name | title }}</li>
-    {% endfor %}
-  </ul>
-</div>
+    <div class="space-y-6 fade-up">
+      <div class="glass-strong rounded-[2rem] p-6">
+        <p class="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200/80">Design direction</p>
+        <h2 class="mt-3 text-2xl font-extrabold">Modern SaaS visual language</h2>
+        <p class="mt-4 text-sm leading-7" style="color: var(--muted);">
+          The UI now uses stronger hierarchy, intentional spacing, premium card treatments, and a more product-led information architecture instead of a simple form-and-result layout.
+        </p>
+      </div>
+
+      <div class="glass rounded-[2rem] p-6">
+        <p class="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-200/80">User journey</p>
+        <div class="mt-4 space-y-3 text-sm leading-7" style="color: var(--muted);">
+          <p>1. Register or sign in through conversion-focused auth screens.</p>
+          <p>2. Search a city or use live geolocation.</p>
+          <p>3. Review current conditions, outlook, and highlight cards instantly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}
